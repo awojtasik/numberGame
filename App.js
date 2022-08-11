@@ -1,20 +1,41 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { useState } from 'react';
+import { StyleSheet, ImageBackground } from 'react-native';
+import { LinearGradient } from 'expo-linear-gradient';
+import { StartGameScreen } from './screens/StartGameScreen';
+import { GameScreen } from './screens/GameScreen';
 
 export default function App() {
+  const [userNumber, setUserNumber] = useState();
+  const pickNumberHandler = (pickedNumber) => {
+    setUserNumber(pickedNumber);
+  };
+
+  let screen = <StartGameScreen onPickNumber={pickNumberHandler} />;
+
+  if (userNumber) {
+    screen = <GameScreen />;
+  }
+
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <LinearGradient colors={['#4e0329', '#ddb52f']} style={styles.rootScrren}>
+      <ImageBackground
+        source={require('./assets/imiges/kroll.jpg')}
+        resizeMode="cover"
+        style={styles.rootScrren}
+        imageStyle={styles.backgroundImage}
+      >
+        {/* <StartGameScreen /> */}
+        {screen}
+      </ImageBackground>
+    </LinearGradient>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
+  rootScrren: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+  },
+  backgroundImage: {
+    opacity: 0.15,
   },
 });
